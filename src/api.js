@@ -475,6 +475,11 @@
       bus.subscribe(this.getEventName(connect.ContactEvents.CONNECTED), f);
    };
 
+   Contact.prototype.onSession = function(f) {
+      var bus = connect.core.getEventBus();
+      bus.subscribe(this.getEventName(connect.ContactEvents.SESSION), f);
+   };
+
    Contact.prototype.getContactId = function() {
       return this.contactId;
    };
@@ -723,6 +728,14 @@
 
    Connection.prototype.getType = function() {
       return this._getData().type;
+   };
+
+   Connection.prototype.getSession = function() {
+      var rtcSessions = connect.core.getSoftphoneManager().sessions;
+      if (rtcSessions) {
+        return rtcSessions[this.connectionId];
+      }
+      return null;
    };
 
    Connection.prototype.isInitialConnection = function() {
